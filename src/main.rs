@@ -25,12 +25,12 @@ fn main() {
             panic!("please give two arguments with both being numbers\n");
         }
     };
-    let twenty_five = Duration::new(60 * first_arg, 0);
+    let work_time = Duration::new(60 * first_arg, 0);
     let second_arg = match env::args().nth(2).unwrap().as_str().parse::<u64>() {
         Ok(val) => val,
         Err(_) => panic!("please give two arguments with both being numbers\n"),
     };
-    let ten_min = Duration::new(60 * second_arg, 0);
+    let break_time = Duration::new(60 * second_arg, 0);
     let mut counter: u64 = 0;
     loop {
         if counter == 0 {
@@ -48,7 +48,7 @@ fn main() {
         }
         sleep(Duration::new(1, 0));
         counter += 1;
-        if twenty_five.as_secs() - counter <= 0 {
+        if work_time.as_secs() - counter <= 0 {
             Command::new("ffplay")
                 .arg("-t")
                 .arg("1")
@@ -74,7 +74,7 @@ fn main() {
             loop {
                 sleep(Duration::new(1, 0));
                 break_counter += 1;
-                if ten_min.as_secs() - break_counter <= 0 {
+                if break_time.as_secs() - break_counter <= 0 {
                     Command::new("ffplay")
                         .arg("-t")
                         .arg("1")
@@ -86,12 +86,12 @@ fn main() {
                     counter = 0;
                     break;
                 }
-                let formatted = format_timer(ten_min.as_secs() - break_counter);
+                let formatted = format_timer(break_time.as_secs() - break_counter);
                 stdout.write_all(formatted.as_bytes());
                 stdout.flush();
             }
         }
-        let formatted = format_timer(twenty_five.as_secs() - counter);
+        let formatted = format_timer(work_time.as_secs() - counter);
         stdout.write_all(formatted.as_bytes());
         stdout.flush();
     }
