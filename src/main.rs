@@ -86,12 +86,12 @@ fn main() {
                     counter = 0;
                     break;
                 }
-                let formatted = format_timer(break_time.as_secs() - break_counter);
+                let formatted = format_timer(break_time.as_secs() - break_counter) + " Break Time";
                 stdout.write_all(formatted.as_bytes());
                 stdout.flush();
             }
         }
-        let formatted = format_timer(work_time.as_secs() - counter);
+        let formatted = format_timer(work_time.as_secs() - counter) + " Work Time";
         stdout.write_all(formatted.as_bytes());
         stdout.flush();
     }
