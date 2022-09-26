@@ -4,7 +4,7 @@ use std::io::{stdout, Write};
 use std::process::Command;
 use std::thread::sleep;
 use std::time::Duration;
-fn format_timer(seconds: u64) -> String {
+fn format_timer(seconds: u64, phase: &'static str) -> String {
     let mins: String = if seconds / 60 < 10 {
         String::from("0") + (seconds / 60).to_string().as_str()
     } else {
@@ -15,7 +15,7 @@ fn format_timer(seconds: u64) -> String {
     } else {
         (seconds % 60).to_string()
     };
-    format!("\r{}:{}", mins, seconds)
+    format!("\r{}:{} {}", mins, seconds, phase)
 }
 fn main() {
     let mut stdout = stdout();
@@ -86,12 +86,12 @@ fn main() {
                     counter = 0;
                     break;
                 }
-                let formatted = format_timer(break_time.as_secs() - break_counter) + " Break Time";
+                let formatted = format_timer(break_time.as_secs() - break_counter, "Break Time");
                 stdout.write_all(formatted.as_bytes());
                 stdout.flush();
             }
         }
-        let formatted = format_timer(work_time.as_secs() - counter) + " Work Time";
+        let formatted = format_timer(work_time.as_secs() - counter, "Work Time");
         stdout.write_all(formatted.as_bytes());
         stdout.flush();
     }
